@@ -2,7 +2,7 @@ package auth
 
 import (
 	"context"
-	"github.com/tylerjnettleton/pkg/auth/proto"
+	"github.com/tylerjnettleton/go/pkg/auth/proto"
 	"log"
 )
 

@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/tylerjnettleton/pkg/auth"
-	authapi "github.com/tylerjnettleton/pkg/auth/proto"
+	"github.com/tylerjnettleton/go/pkg/auth"
+	authapi "github.com/tylerjnettleton/go/pkg/auth/proto"
 	"google.golang.org/grpc"
 	"log"
 	"net"
