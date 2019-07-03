@@ -22,3 +22,8 @@ func (s *Server) LoginUser(ctx context.Context, req *authapi.LoginMessage) (*aut
 	}
 	return &authapi.LoginResponse{Success: true, Token: token}, nil
 }
+
+func (s *Server) ValidateJWTToken(ctx context.Context, req *authapi.ValidateJWTokenMessage) (*authapi.ValidateJWTokenResponse, error) {
+	valid, token := ValidateToken(req.Token)
+	return &authapi.ValidateJWTokenResponse{Valid: valid, NewToken: token}, nil
+}

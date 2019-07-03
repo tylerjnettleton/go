@@ -36,27 +36,60 @@ func GenerateTokenForUser(user User) (err error, token string) {
 	return nil, tString
 }
 
-func ValidateToken(token string) (valid bool) {
+func ValidateToken(tknStr string) (valid bool, tokenString string) {
 	jt := &jwtToken{}
 
-	// Parse the JWT string and store the result in `claims`.
-	// Note that we are passing the key in this method as well. This method will return an error
-	// if the token is invalid (if it has expired according to the expiry time we set on sign in),
-	// or if the signature does not match
-	tkn, err := jwt.ParseWithClaims(token, jt, func(token *jwt.Token) (interface{}, error) {
+	// Parse the JWT string and store the result
+	tkn, err := jwt.ParseWithClaims(tknStr, jt, func(token *jwt.Token) (interface{}, error) {
 		return jwtKey, nil
 	})
 
 	if !tkn.Valid {
-		log.Fatalf("Invalid token for user: %s", jt.Email)
-		return false
+		log.Printf("Invalid token for user: %s", jt.Email)
+		return false, ""
 	}
 
 	if err != nil {
-		log.Fatalf("Invalid token for user: %s", jt.Email)
-		return false
+		log.Printf("Invalid token for user: %s", jt.Email)
+		return false, ""
 	}
 
 	log.Printf("Valid token for user: %s", jt.Email)
-	return true
+	return true, RefreshToken(tknStr)
+}
+
+func RefreshToken(tknStr string) (tString string) {
+	jt := &jwtToken{}
+
+	// Parse the JWT string and store the result
+	tkn, err := jwt.ParseWithClaims(tknStr, jt, func(token *jwt.Token) (interface{}, error) {
+		return jwtKey, nil
+	})
+
+	if err != nil {
+		return ""
+	}
+
+	if !tkn.Valid {
+		return ""
+	}
+
+	// Extend the time on the token
+
+	if time.Unix(jt.ExpiresAt, 0).Sub(time.Now()) > 30*time.Second {
+		// No need to extend the excoriation time
+		// return the old one
+		// (This should not really happen)
+		return ""
+	}
+
+	expirationTime := time.Now().Add(5 * time.Minute)
+	jt.ExpiresAt = expirationTime.Unix()
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jt)
+	tokenString, err := token.SignedString(jwtKey)
+	if err != nil {
+		return tknStr
+	}
+
+	return tokenString
 }

@@ -29,3 +29,17 @@ message LoginResponse {
 service Login {
     rpc LoginUser(LoginMessage) returns (LoginResponse) {}
 }
+
+message ValidateJWTokenMessage {
+    string token = 1;
+}
+
+message ValidateJWTokenResponse {
+    bool valid = 1;
+    string newToken = 2;
+}
+
+service ValidateJWTToken {
+    rpc ValidateJWTToken(ValidateJWTokenMessage) returns (ValidateJWTokenResponse) {}
+}
+

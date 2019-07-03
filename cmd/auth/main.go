@@ -45,6 +45,7 @@ func main() {
 
 	authapi.RegisterRegisterServer(grpcServer, &s)
 	authapi.RegisterLoginServer(grpcServer, &s)
+	authapi.RegisterValidateJWTTokenServer(grpcServer, &s)
 
 	log.Print("Starting authentication server...")
 
