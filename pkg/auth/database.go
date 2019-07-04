@@ -5,6 +5,7 @@ import (
 	"errors"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
+	"log"
 )
 
 var db *gorm.DB
@@ -15,16 +16,18 @@ func CloseDB() {
 
 func Connect() error {
 	// TODO: get login information from secure service
-	db, _ = gorm.Open("postgres", "host=127.0.0.1 port=5432 user=test dbname=user_auth password=test sslmode=disable")
+	tdb, err := gorm.Open("postgres", "host=127.0.0.1 port=5432 user=test dbname=user_auth password=test sslmode=disable")
 
-	//if err != nil {
-	//	return err
-	//}
+	if err != nil {
+		log.Fatal("Database connection failed")
+		return errors.New("Database connection failed")
+	}
+
+	db = tdb
 
 	// Migrate users table
 	db.AutoMigrate(&User{})
 
-	// TODO: Maybe put this into a context to close the database on application termination?
 	return nil
 }
 

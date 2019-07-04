@@ -10,7 +10,8 @@ import (
 var jwtKey = []byte("my_secret_key")
 
 type jwtToken struct {
-	Email string `json:"username"`
+	Email  string `json:"username"`
+	UserId uint
 	jwt.StandardClaims
 }
 
@@ -18,7 +19,8 @@ func GenerateTokenForUser(user User) (err error, token string) {
 	expirationTime := time.Now().Add(5 * time.Minute)
 	// Create the JWT claims, which includes the username and expiry time
 	jt := &jwtToken{
-		Email: user.Email,
+		Email:  user.Email,
+		UserId: user.ID,
 		StandardClaims: jwt.StandardClaims{
 			// In JWT, the expiry time is expressed as unix milliseconds
 			ExpiresAt: expirationTime.Unix(),
