@@ -1,0 +1,17 @@
+syntax = "proto3";
+package pupapi;
+
+message AddAnimalMessage {
+    string name = 1;
+    string bio = 2;
+    bytes profile_image = 3;
+}
+
+message AddAnimalResponse {
+    bool success = 1;
+}
+
+service AddAnimal {
+    rpc AddAnimal(AddAnimalMessage) returns (AddAnimalResponse) {}
+}
+

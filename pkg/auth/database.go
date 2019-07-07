@@ -6,6 +6,7 @@ import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 	"log"
+	"strings"
 )
 
 var db *gorm.DB
@@ -19,7 +20,7 @@ func Connect() error {
 	tdb, err := gorm.Open("postgres", "host=127.0.0.1 port=5432 user=test dbname=user_auth password=test sslmode=disable")
 
 	if err != nil {
-		log.Fatal("Database connection failed")
+		log.Print("Database connection failed ")
 		return errors.New("Database connection failed")
 	}
 
@@ -34,6 +35,7 @@ func Connect() error {
 func RegisterUser(email string, password string) (success bool, takenEmail bool, invalidPassword bool) {
 	// Check if user with the same email exist
 	user := &User{}
+	email = strings.ToLower(email)
 	db.Where(&User{Email: email}).First(user)
 
 	if user.Email != "" {

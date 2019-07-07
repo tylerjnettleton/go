@@ -1,0 +1,18 @@
+syntax = "proto3";
+package pupapi;
+
+message CommentPostMessage {
+    string title = 1;
+    string body = 2;
+    repeated bytes images = 3;
+    int32 post_id = 4;
+}
+
+message CommentPostResponse {
+    bool success = 1;
+}
+
+service CommentPost {
+    rpc CommentPost(CommentPostMessage) returns (CommentPostResponse) {}
+}
+

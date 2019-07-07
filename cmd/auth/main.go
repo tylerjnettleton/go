@@ -27,7 +27,7 @@ func main() {
 
 	// TODO: use TLS...
 	// Create grpc listen handle
-	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", 7777))
+	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", 5555))
 	if err != nil {
 		log.Fatalf("Failed to listen: %v", err)
 	}

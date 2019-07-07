@@ -16,7 +16,8 @@ type jwtToken struct {
 }
 
 func GenerateTokenForUser(user User) (err error, token string) {
-	expirationTime := time.Now().Add(5 * time.Minute)
+	// TODO: Increase the expiration time for production
+	expirationTime := time.Now().Add(1 * time.Minute)
 	// Create the JWT claims, which includes the username and expiry time
 	jt := &jwtToken{
 		Email:  user.Email,

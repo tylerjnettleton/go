@@ -1,0 +1,24 @@
+syntax = "proto3";
+package pupapi;
+
+message RegisterMessage {
+    string email = 1;
+    string first_name = 2;
+    string last_name = 3;
+    string zipcode = 4;
+    string password = 5;
+}
+
+message RegisterResponse {
+    bool success = 1;
+    bool taken_email = 2;
+    bool invalid_password = 3;
+    bool invalid_first_name = 4;
+    bool invalid_last_name = 5;
+    bool invalid_zipcode = 6;
+}
+
+service Register {
+    rpc RegisterUser(RegisterMessage) returns (RegisterResponse) {}
+}
+

@@ -1,0 +1,17 @@
+syntax = "proto3";
+package pupapi;
+
+message NewPostMessage {
+    string title = 1;
+    string body = 2;
+    repeated bytes images = 3;
+}
+
+message NewPostResponse {
+    bool success = 1;
+}
+
+service NewPost {
+    rpc NewPost(NewPostMessage) returns (NewPostResponse) {}
+}
+

@@ -1,0 +1,6 @@
+platform :ios, '8.0'
+use_frameworks!
+
+target 'pups' do
+pod 'pupapi', :path => '/Users/tylernettleton/go/src/github.com/tylerjnettleton/go/pkg/pupapiserver/proto/pupsapi.podspec'
+end
